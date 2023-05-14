@@ -6,6 +6,53 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model career {
+  id     Int       @id @default(autoincrement())
+  name   String
+  fecalt DateTime  @default(now())
+  fecbaj DateTime?
+
+  plan plan[]
+}
+
+model plan {
+  id         Int       @id @default(autoincrement())
+  career_id  Int
+  subject_id Int
+  fecalt     DateTime  @default(now())
+  fecbaj     DateTime?
+  area       String
+  reqsim     Int?
+  requi1     Int?
+  requi2     Int?
+  requi3     Int?
+  requi4     Int?
+  semestre   Int
+
+  career   career   @relation(fields: [career_id], references: [id])
+  subject1 subject? @relation(name: "plan_subject1", fields: [reqsim], references: [id])
+  subject2 subject? @relation(name: "plan_subject2", fields: [requi1], references: [id])
+  subject3 subject? @relation(name: "plan_subject3", fields: [requi2], references: [id])
+  subject4 subject? @relation(name: "plan_subject4", fields: [requi3], references: [id])
+  subject5 subject? @relation(name: "plan_subject5", fields: [requi4], references: [id])
+}
+
+model subject {
+  id          Int       @id @default(autoincrement())
+  description String
+  nsesio      Int
+  durses      Int
+  fecalt      DateTime  @default(now())
+  fecbaj      DateTime?
+  type        String
+
+  plan_subject1 plan[] @relation(name: "plan_subject1")
+  plan_subject2 plan[] @relation(name: "plan_subject2")
+  plan_subject3 plan[] @relation(name: "plan_subject3")
+  plan_subject4 plan[] @relation(name: "plan_subject4")
+  plan_subject5 plan[] @relation(name: "plan_subject5")
 }
