@@ -1,26 +1,72 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { UpdatePlanDto } from './dto/update-plan.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class PlansService {
-  create(createPlanDto: CreatePlanDto) {
-    return 'This action adds a new plan';
+  constructor(
+    private prisma: PrismaService,
+  ) { }
+
+  async create(createPlanDto: CreatePlanDto) {
+    try {
+      return await this.prisma.plan.create({
+        data: createPlanDto,
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  findAll() {
-    return `This action returns all plans`;
+  async findAll() {
+    try {
+      return await this.prisma.plan.findMany({
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} plan`;
+  async findOne(id: number) {
+    try {
+      return await this.prisma.plan.findFirst({
+        where: {
+          id
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  update(id: number, updatePlanDto: UpdatePlanDto) {
-    return `This action updates a #${id} plan`;
+  async update(id: number, updatePlanDto: UpdatePlanDto) {
+    try {
+      return await this.prisma.plan.update({
+        where: {
+          id
+        },
+        data: updatePlanDto
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} plan`;
+  async remove(id: number) {
+    try {
+      return await this.prisma.plan.delete({
+        where: {
+          id
+        }
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 }
