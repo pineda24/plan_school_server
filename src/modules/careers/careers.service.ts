@@ -1,11 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateCareerDto } from './dto/create-career.dto';
 import { UpdateCareerDto } from './dto/update-career.dto';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class CareersService {
-  create(createCareerDto: CreateCareerDto) {
-    return 'This action adds a new career';
+  constructor(
+    private prisma: PrismaService,
+  ) { }
+
+  async create(createCareerDto: CreateCareerDto) {
+
+    try {
+      const {
+
+      } = createCareerDto;
+
+      return await this.prisma.career.create({
+        data: createCareerDto,
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
   findAll() {
