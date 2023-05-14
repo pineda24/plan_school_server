@@ -12,10 +12,6 @@ export class CareersService {
   async create(createCareerDto: CreateCareerDto) {
 
     try {
-      const {
-
-      } = createCareerDto;
-
       return await this.prisma.career.create({
         data: createCareerDto,
       });
@@ -25,19 +21,53 @@ export class CareersService {
     }
   }
 
-  findAll() {
-    return `This action returns all careers`;
+  async findAll() {
+    try {
+      return await this.prisma.career.findMany({
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} career`;
+  async findOne(id: number) {
+    try {
+      return await this.prisma.career.findFirst({
+        where: {
+          id
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  update(id: number, updateCareerDto: UpdateCareerDto) {
-    return `This action updates a #${id} career`;
+  async update(id: number, updateCareerDto: UpdateCareerDto) {
+    try {
+      return await this.prisma.career.update({
+        where: {
+          id
+        },
+        data: updateCareerDto,
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} career`;
+  async remove(id: number) {
+    try {
+      return await this.prisma.career.delete({
+        where: {
+          id
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      throw new InternalServerErrorException(e);
+    }
   }
 }
