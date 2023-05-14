@@ -3,17 +3,17 @@ import { IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, Length, Max, Ma
 
 export class CreateCareerDto {
 
-    @IsNotEmpty({
-        message: 'id_required'
-    })
-    @IsNumber({}, {
-        message: 'id_number'
-    })
-    @IsPositive({
-        message: 'id_positive'
-    })
-    @ApiProperty()
-    id: number;
+    // @IsNotEmpty({
+    //     message: 'id_required'
+    // })
+    // @IsNumber({}, {
+    //     message: 'id_number'
+    // })
+    // @IsPositive({
+    //     message: 'id_positive'
+    // })
+    // @ApiProperty()
+    // id: number;
 
     @IsNotEmpty({
         message: 'name_required'
